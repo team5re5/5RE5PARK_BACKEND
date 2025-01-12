@@ -1,7 +1,7 @@
 package com.oreo.finalproject_5re5_be.tts.service;
 
 import com.oreo.finalproject_5re5_be.global.component.AudioInfo;
-import com.oreo.finalproject_5re5_be.global.component.S3Service;
+import com.oreo.finalproject_5re5_be.global.component.AWSS3Service;
 import com.oreo.finalproject_5re5_be.global.dto.response.AudioFileInfo;
 import com.oreo.finalproject_5re5_be.tts.dto.external.TtsMakeResponse;
 import com.oreo.finalproject_5re5_be.tts.dto.response.TtsSentenceDto;
@@ -28,19 +28,19 @@ public class SaveTtsMakeResultService {
     private final TtsAudioFileRepository ttsAudioFileRepository;
     private final TtsProcessHistoryRepository ttsProcessHistoryRepository;
     private final AudioInfo audioInfo;
-    private final S3Service s3Service;
+    private final AWSS3Service AWSS3Service;
 
     public SaveTtsMakeResultService(
             TtsSentenceRepository ttsSentenceRepository,
             TtsAudioFileRepository ttsAudioFileRepository,
             TtsProcessHistoryRepository ttsProcessHistoryRepository,
             AudioInfo audioInfo,
-            S3Service s3Service) {
+            AWSS3Service AWSS3Service) {
         this.ttsSentenceRepository = ttsSentenceRepository;
         this.ttsAudioFileRepository = ttsAudioFileRepository;
         this.ttsProcessHistoryRepository = ttsProcessHistoryRepository;
         this.audioInfo = audioInfo;
-        this.s3Service = s3Service;
+        this.AWSS3Service = AWSS3Service;
     }
 
     // tts 생성 결과 저장 메서드 (일시적 문제가 발생할 경우 최대 3회 재시도)
@@ -106,7 +106,7 @@ public class SaveTtsMakeResultService {
             RuntimeException e, MultipartFile ttsFile, String uploadUrl, TtsSentence ttsSentence) {
         // 1. 업로드 된 s3 파일 삭제
         if (!uploadUrl.isEmpty() && !uploadUrl.isBlank()) {
-            s3Service.deleteFile("tts", uploadUrl.split("/")[3]);
+            AWSS3Service.deleteFile("tts", uploadUrl.split("/")[3]);
         }
 
         // 2. 예외 발생 시키기

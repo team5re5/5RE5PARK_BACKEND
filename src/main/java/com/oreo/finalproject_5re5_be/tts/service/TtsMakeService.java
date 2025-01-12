@@ -1,7 +1,7 @@
 package com.oreo.finalproject_5re5_be.tts.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.oreo.finalproject_5re5_be.global.component.S3Service;
+import com.oreo.finalproject_5re5_be.global.component.AWSS3Service;
 import com.oreo.finalproject_5re5_be.global.exception.EntityNotFoundException;
 import com.oreo.finalproject_5re5_be.tts.client.AudioConfigGenerator;
 import com.oreo.finalproject_5re5_be.tts.client.GoogleTTSService;
@@ -28,7 +28,7 @@ public class TtsMakeService {
     private final TtsSentenceRepository ttsSentenceRepository;
     private final VoiceRepository voiceRepository;
     private final GoogleTTSService googleTTSService;
-    private final S3Service s3Service;
+    private final AWSS3Service AWSS3Service;
     private final SaveTtsMakeResultService saveTtsMakeResultService;
     //    private final SqsService sqsService;
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -36,7 +36,7 @@ public class TtsMakeService {
     public TtsMakeService(
             TtsSentenceRepository ttsSentenceRepository,
             GoogleTTSService googleTTSService,
-            S3Service s3Service,
+            AWSS3Service AWSS3Service,
             SaveTtsMakeResultService saveTtsMakeResultService,
             VoiceRepository voiceRepository,
             TtsProgressStatusRepository ttsProgressStatusRepository
@@ -44,7 +44,7 @@ public class TtsMakeService {
             ) {
         this.ttsSentenceRepository = ttsSentenceRepository;
         this.googleTTSService = googleTTSService;
-        this.s3Service = s3Service;
+        this.AWSS3Service = AWSS3Service;
         this.saveTtsMakeResultService = saveTtsMakeResultService;
         this.voiceRepository = voiceRepository;
         this.ttsProgressStatusRepository = ttsProgressStatusRepository;
@@ -67,7 +67,7 @@ public class TtsMakeService {
             MultipartFile ttsFile = makeTtsAudioFile(ttsSentence);
 
             // 2. TTS 결과 파일 AWS S3에 업로드
-            String uploadedUrl = s3Service.upload(ttsFile, "tts");
+            String uploadedUrl = AWSS3Service.upload(ttsFile, "tts");
 
             // 3. TTS 결과 정보 저장
             TtsSentenceDto saveResult =

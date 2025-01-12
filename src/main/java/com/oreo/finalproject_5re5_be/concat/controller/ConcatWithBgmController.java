@@ -9,7 +9,7 @@ import com.oreo.finalproject_5re5_be.concat.service.bgm.BgmProcessor;
 import com.oreo.finalproject_5re5_be.concat.service.concatenator.AudioProperties;
 import com.oreo.finalproject_5re5_be.concat.service.concatenator.IntervalConcatenator;
 import com.oreo.finalproject_5re5_be.concat.service.concatenator.StereoIntervalConcatenator;
-import com.oreo.finalproject_5re5_be.global.component.S3Service;
+import com.oreo.finalproject_5re5_be.global.component.AWSS3Service;
 import com.oreo.finalproject_5re5_be.global.component.audio.AudioFormats;
 import com.oreo.finalproject_5re5_be.global.component.audio.AudioResample;
 import com.oreo.finalproject_5re5_be.global.dto.response.ResponseDto;
@@ -40,7 +40,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class ConcatWithBgmController {
 
-    private final S3Service s3Service;
+    private final AWSS3Service AWSS3Service;
     private final MaterialAudioService materialAudioService;
     private final ConcatResultService concatResultService;
     private final AudioFileService audioFileService;
@@ -120,7 +120,7 @@ public class ConcatWithBgmController {
 
             // 결과파일 S3 업로드
             String resultAudioUrl =
-                    s3Service.uploadAudioStream(mixedAudioStream, "concat/result", concatResultFileName);
+                    AWSS3Service.uploadAudioStream(mixedAudioStream, "concat/result", concatResultFileName);
 
             // DB 저장1. ConcatResult DB
             ConcatUrlResponse concatResultResponse =

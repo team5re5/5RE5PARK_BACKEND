@@ -8,6 +8,15 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import com.oreo.finalproject_5re5_be.global.component.audio.AudioExtensionConverter;
 import com.oreo.finalproject_5re5_be.vc.dto.request.VcUrlRequest;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.sound.sampled.AudioFileFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -15,20 +24,13 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import javax.sound.sampled.*;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 
-@Component
 @Slf4j
-public class S3Service {
-    private AmazonS3 s3Client;
+@Component
+public class AWSS3Service implements StorageService{
+    private final AmazonS3 s3Client;
 
-    @Autowired
-    public S3Service(AmazonS3 s3Client) {
+    public AWSS3Service(AmazonS3 s3Client) {
         this.s3Client = s3Client;
     }
 
@@ -266,11 +268,11 @@ public class S3Service {
     }
 
     // s3 파일 삭제 메서드
-    public void deleteFile(String buketName, String key) {
+    public void deleteFile(String bucketName, String key) {
         try {
-            s3Client.deleteObject(buketName, key);
+            s3Client.deleteObject(bucketName, key);
         } catch (SdkClientException e) {
-            throw new RuntimeException("S3 파일 삭제 요청 중 에러 발생, buketName:" + buketName + ", key:" + key);
+            throw new RuntimeException("S3 파일 삭제 요청 중 에러 발생, buketName:" + bucketName + ", key:" + key);
         }
     }
 

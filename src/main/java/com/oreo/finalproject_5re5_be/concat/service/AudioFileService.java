@@ -9,7 +9,7 @@ import com.oreo.finalproject_5re5_be.concat.dto.response.ConcatUrlResponse;
 import com.oreo.finalproject_5re5_be.concat.entity.AudioFile;
 import com.oreo.finalproject_5re5_be.concat.repository.AudioFileRepository;
 import com.oreo.finalproject_5re5_be.concat.service.helper.AudioFileHelper;
-import com.oreo.finalproject_5re5_be.global.component.S3Service;
+import com.oreo.finalproject_5re5_be.global.component.AWSS3Service;
 import com.oreo.finalproject_5re5_be.global.exception.DataNotFoundException;
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -37,7 +37,7 @@ import org.springframework.stereotype.Service;
 public class AudioFileService {
 
     private final AudioFileRepository audioFileRepository;
-    private final S3Service s3Service;
+    private final AWSS3Service AWSS3Service;
     private final AudioFileHelper audioFileHelper;
 
     // audioFile seq로 audioFile 정보 조회 (1개)
@@ -171,7 +171,7 @@ public class AudioFileService {
                     .map(
                             dto -> {
                                 // S3 업로드
-                                String audioUrl = s3Service.upload(dto.getAudioFile(), "concat/audio");
+                                String audioUrl = AWSS3Service.upload(dto.getAudioFile(), "concat/audio");
 
                                 // AudioFile 엔티티 생성
                                 try {

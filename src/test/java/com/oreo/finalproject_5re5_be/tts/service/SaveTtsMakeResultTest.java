@@ -4,7 +4,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-import com.oreo.finalproject_5re5_be.global.component.S3Service;
+import com.oreo.finalproject_5re5_be.global.component.AWSS3Service;
 import com.oreo.finalproject_5re5_be.project.entity.Project;
 import com.oreo.finalproject_5re5_be.tts.entity.*;
 import com.oreo.finalproject_5re5_be.tts.exception.SaveTtsMakeResultException;
@@ -30,7 +30,7 @@ public class SaveTtsMakeResultTest {
 
     @MockBean private VoiceRepository voiceRepository;
 
-    @MockBean private S3Service s3Service;
+    @MockBean private AWSS3Service AWSS3Service;
 
     @MockBean private TtsProgressStatusRepository ttsProgressStatusRepository;
 
@@ -69,7 +69,7 @@ public class SaveTtsMakeResultTest {
         verify(ttsAudioFileRepository, times(3)).save(any(TtsAudioFile.class));
 
         // 5. s3 파일 삭제 로직이 호출 되었는지 확인
-        verify(s3Service, times(1)).deleteFile(anyString(), anyString());
+        verify(AWSS3Service, times(1)).deleteFile(anyString(), anyString());
     }
 
     // Voice 엔티티 생성 메서드

@@ -5,6 +5,8 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.StorageOptions;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,5 +32,10 @@ public class S3Config {
                 .withRegion(Regions.fromName(region)) // 리전 설정
                 .withCredentials(new AWSStaticCredentialsProvider(basicAWSCredentials)) // 자격 증명 등록
                 .build();
+    }
+
+    @Bean
+    public Storage storage(){
+        return StorageOptions.getDefaultInstance().getService();
     }
 }

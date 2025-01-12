@@ -11,7 +11,7 @@ import com.oreo.finalproject_5re5_be.concat.entity.MaterialAudio;
 import com.oreo.finalproject_5re5_be.concat.service.concatenator.AudioProperties;
 import com.oreo.finalproject_5re5_be.concat.service.concatenator.IntervalConcatenator;
 import com.oreo.finalproject_5re5_be.concat.service.concatenator.StereoIntervalConcatenator;
-import com.oreo.finalproject_5re5_be.global.component.S3Service;
+import com.oreo.finalproject_5re5_be.global.component.AWSS3Service;
 import com.oreo.finalproject_5re5_be.global.component.audio.AudioExtensionConverter;
 import com.oreo.finalproject_5re5_be.global.component.audio.AudioFormats;
 import com.oreo.finalproject_5re5_be.global.component.audio.AudioResample;
@@ -32,7 +32,7 @@ public class ConcatService {
             new StereoIntervalConcatenator(AudioFormats.STEREO_FORMAT_SR441_B16);
     private final AudioResample audioResample =
             new AudioResample(AudioFormats.STEREO_FORMAT_SR441_B16);
-    private final S3Service s3Service;
+    private final AWSS3Service AWSS3Service;
     private final MaterialAudioService materialAudioService;
     private final ConcatResultService concatResultService;
 
@@ -109,7 +109,7 @@ public class ConcatService {
     }
 
     private String getUploadtoS3(MultipartFile multipartFile) throws IOException {
-        return s3Service.upload(
+        return AWSS3Service.upload(
                 multipartFile.getInputStream(),
                 "concat/result",
                 multipartFile.getOriginalFilename(),
@@ -124,7 +124,7 @@ public class ConcatService {
                         .map(
                                 cr ->
                                         new AudioProperties(
-                                                resample(S3Service.load(cr.getOriginAudioRequest().getAudioUrl())),
+                                                resample(AWSS3Service.load(cr.getOriginAudioRequest().getAudioUrl())),
                                                 cr.getRowSilence()))
                         .toList(); // 오디오 받아오기
 

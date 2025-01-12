@@ -5,7 +5,7 @@ import com.oreo.finalproject_5re5_be.concat.dto.request.ConcatRowSaveRequestDto;
 import com.oreo.finalproject_5re5_be.concat.dto.request.OriginAudioRequest;
 import com.oreo.finalproject_5re5_be.concat.service.bgm.BgmProcessor;
 import com.oreo.finalproject_5re5_be.concat.service.concatenator.AudioProperties;
-import com.oreo.finalproject_5re5_be.global.component.S3Service;
+import com.oreo.finalproject_5re5_be.global.component.AWSS3Service;
 import com.oreo.finalproject_5re5_be.global.component.audio.AudioExtensionConverter;
 import com.oreo.finalproject_5re5_be.global.component.audio.AudioFormats;
 import com.oreo.finalproject_5re5_be.global.component.audio.AudioResample;
@@ -55,7 +55,7 @@ public class AudioStreamService {
             OriginAudioRequest originAudio = row.getOriginAudioRequest();
 
             try {
-                AudioInputStream audioStream = S3Service.load(originAudio.getAudioUrl());
+                AudioInputStream audioStream = AWSS3Service.load(originAudio.getAudioUrl());
 
                 // 리샘플링 처리
                 audioStream = audioResample.formatting(audioStream); // 리샘플링 처리

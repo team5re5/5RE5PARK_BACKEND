@@ -96,6 +96,9 @@ dependencies {
     implementation platform('com.amazonaws:aws-java-sdk-bom:1.12.529')
     implementation 'com.amazonaws:aws-java-sdk-s3'
 
+    // Google Cloud Platform Storage(GCP Storage)
+    implementation 'com.google.cloud:google-cloud-storage:2.27.1'
+
 //    // https://mvnrepository.com/artifact/software.amazon.awssdk/sqs
 //    implementation group: 'software.amazon.awssdk', name: 'sqs', version: '2.21.46'
 
